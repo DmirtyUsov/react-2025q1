@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import Header from './components/Header';
+import TopControls from './components/TopControls';
 
 export default class App extends React.Component {
   render(): ReactNode {
@@ -8,7 +9,8 @@ export default class App extends React.Component {
         <Header title="Task1: Class components. Error boundary."></Header>
 
         <main className="mx-auto max-w-4xl">
-          <section>Top Controls</section>
+          <TopControls />
+          <hr className="mx-auto w-1/2 bg-black dark:bg-white" />
           <section>Results</section>
         </main>
         <footer id="footer" className="bg-teal-700 text-xl text-white">
