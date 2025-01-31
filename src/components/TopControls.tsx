@@ -1,28 +1,30 @@
 import React, { ReactNode } from 'react';
 
 const LOCAL_STORAGE_ID = 'search-wer433j';
-type State = { query: string; inputValue: string };
+type State = { inputValue: string };
 
-export default class TopControls extends React.Component {
+export default class TopControls extends React.Component<{
+  setSearchQuery(searchQuery: string): void;
+}> {
   state: Readonly<State> = {
-    query: '',
     inputValue: localStorage.getItem(LOCAL_STORAGE_ID) || '',
   };
 
-  updateInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+  updateInputValue = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const value: string = event.target.value;
-    this.setState((prevState) => {
-      return { ...prevState, inputValue: value };
+    this.setState(() => {
+      return { inputValue: value };
     });
   };
 
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const inputValue: string = this.state.inputValue.trim();
     this.setState(() => {
-      return { inputValue, query: inputValue };
+      return { inputValue };
     });
     localStorage.setItem(LOCAL_STORAGE_ID, inputValue);
+    this.props.setSearchQuery(inputValue);
   };
 
   render(): ReactNode {
