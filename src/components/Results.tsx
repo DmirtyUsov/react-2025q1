@@ -2,25 +2,8 @@ import React, { ReactNode } from 'react';
 import { Person } from '../models';
 
 export default class Results extends React.Component<{ results: Person[] }> {
-  persons = this.props.results.map((person) => (
-    <tr
-      key={person.name}
-      className="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
-    >
-      <th
-        scope="row"
-        className="px-6 py-4 font-medium text-gray-900 dark:text-white"
-      >
-        {person.name}
-      </th>
-      <td className="px-6 py-4">{person.gender}</td>
-      <td className="px-6 py-4">{person.height}</td>
-      <td className="px-6 py-4">{person.mass}</td>
-    </tr>
-  ));
-
   render(): ReactNode {
-    if (this.persons.length === 0) {
+    if (this.props.results.length === 0) {
       return (
         <h3 className="mb-6 text-center text-xl text-slate-900 sm:text-2xl dark:text-white">
           No Entries
@@ -45,8 +28,31 @@ export default class Results extends React.Component<{ results: Person[] }> {
             </th>
           </tr>
         </thead>
-        <tbody>{this.persons}</tbody>
+        <tbody>
+          <Rows results={this.props.results} />
+        </tbody>
       </table>
     );
+  }
+}
+
+class Rows extends React.Component<{ results: Person[] }> {
+  render(): ReactNode {
+    return this.props.results.map((person) => (
+      <tr
+        key={person.name}
+        className="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
+      >
+        <th
+          scope="row"
+          className="px-6 py-4 font-medium text-gray-900 dark:text-white"
+        >
+          {person.name}
+        </th>
+        <td className="px-6 py-4">{person.gender}</td>
+        <td className="px-6 py-4">{person.height}</td>
+        <td className="px-6 py-4">{person.mass}</td>
+      </tr>
+    ));
   }
 }
