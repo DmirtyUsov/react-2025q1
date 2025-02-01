@@ -1,11 +1,14 @@
 import React, { ReactNode } from 'react';
 import Header from './components/Header';
 import TopControls from './components/TopControls';
+import Results from './components/Results';
+import { Person } from './models';
+import { initResult } from './data';
 
-type State = { searchQuery: string };
+type State = { searchQuery: string; result: Person[] };
 
 export default class App extends React.Component {
-  state: Readonly<State> = { searchQuery: '' };
+  state: Readonly<State> = { searchQuery: '', result: initResult };
 
   setSearchQuery(searchQuery: string): void {
     this.setState((prevState: State) => {
@@ -23,8 +26,12 @@ export default class App extends React.Component {
           <TopControls
             setSearchQuery={(searchQuery) => this.setSearchQuery(searchQuery)}
           />
-          <hr className="mx-auto w-1/2 bg-black dark:bg-white" />
-          <section>Results {this.state.searchQuery}</section>
+          <section>
+            <h2 className="mb-6 text-center text-3xl font-bold text-slate-900 sm:text-4xl dark:text-white">
+              Results
+            </h2>
+            <Results results={this.state.result} />
+          </section>
         </main>
         <footer id="footer" className="bg-teal-700 text-xl text-white">
           <div className="mx-auto flex max-w-4xl p-4">
