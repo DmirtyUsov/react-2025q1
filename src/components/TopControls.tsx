@@ -12,7 +12,7 @@ export default class TopControls extends React.Component<{
 
   updateInputValue = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const value: string = event.target.value;
-    this.setState(() => {
+    this.setState((): State => {
       return { inputValue: value };
     });
   };
@@ -20,7 +20,7 @@ export default class TopControls extends React.Component<{
   handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const inputValue: string = this.state.inputValue.trim();
-    this.setState(() => {
+    this.setState((): State => {
       return { inputValue };
     });
     localStorage.setItem(LOCAL_STORAGE_ID, inputValue);
@@ -47,7 +47,7 @@ export default class TopControls extends React.Component<{
             name="subject"
             value={this.state.inputValue}
             onChange={(event) => this.updateInputValue(event)}
-            placeholder="Your Subject"
+            placeholder="Character within the Star Wars universe"
             autoComplete="false"
             className="w-full rounded-xl border border-solid border-slate-900 p-3 text-2xl text-black sm:text-3xl dark:border-white dark:text-white"
           />

@@ -3,6 +3,7 @@ import Header from './components/Header';
 import TopControls from './components/TopControls';
 import Results from './components/Results';
 import { People, Person } from './models';
+import Warning from './components/Warning';
 
 const API_URL = 'https://swapi.dev/api/people/';
 
@@ -10,8 +11,8 @@ type State = {
   searchQuery: string;
   results: Person[];
   isLoading: boolean;
-  isStatusNotOK: boolean;
-  errorMessage: string;
+  isResponseStatusNotOK: boolean;
+  responseErrorMessage: string;
 };
 
 export default class App extends React.Component {
@@ -19,9 +20,10 @@ export default class App extends React.Component {
     searchQuery: 'Some Text For Mount Swerrq2',
     results: [],
     isLoading: false,
-    isStatusNotOK: false,
-    errorMessage: '',
+    isResponseStatusNotOK: false,
+    responseErrorMessage: '',
   };
+
   setIsLoadingState(isLoading: boolean) {
     this.setState((prevState: State) => {
       return { ...prevState, isLoading };
@@ -36,7 +38,7 @@ export default class App extends React.Component {
     });
   }
 
-  loadData() {
+  loadData(): void {
     if (this.state.isLoading) {
       return;
     }
@@ -54,7 +56,7 @@ export default class App extends React.Component {
         return response.json();
       })
       .then((data: People) => {
-        this.setState((prevState: State) => {
+        this.setState((prevState: State): State => {
           return {
             ...prevState,
             results: data.results,
@@ -62,11 +64,11 @@ export default class App extends React.Component {
         });
       })
       .catch((error) => {
-        this.setState((prevState: State) => {
+        this.setState((prevState: State): State => {
           return {
             ...prevState,
-            isStatusNotOK: true,
-            errorMessage: `${error}`,
+            isResponseStatusNotOK: true,
+            responseErrorMessage: `${error}`,
           };
         });
       })
@@ -95,8 +97,11 @@ export default class App extends React.Component {
                 Results
               </h2>
             )}
-            {!this.state.isLoading && this.state.isStatusNotOK && (
-              <ErrorMessage title="" message={this.state.errorMessage} />
+            {!this.state.isLoading && this.state.isResponseStatusNotOK && (
+              <Warning
+                title={`Failed to load data`}
+                message={this.state.responseErrorMessage}
+              />
             )}
             {this.state.isLoading === true ? (
               <h3 className="mb-6 animate-pulse text-center text-3xl">
@@ -107,27 +112,19 @@ export default class App extends React.Component {
             )}
           </section>
         </main>
+
         <footer id="footer" className="bg-teal-700 text-xl text-white">
           <div className="mx-auto flex max-w-4xl p-4">
-            <button className="w-48 cursor-pointer rounded-xl border border-solid border-slate-900 bg-amber-700 p-3 text-white hover:bg-amber-600 active:bg-amber-500">
-              Make Error
+            <button
+              onClick={() => {
+                throw new Error('Simulated error.');
+              }}
+              className="w-48 cursor-pointer rounded-xl border border-solid border-slate-900 bg-amber-700 p-3 text-white hover:bg-amber-600 active:bg-amber-500"
+            >
+              Simulate Error
             </button>
           </div>
         </footer>
-      </div>
-    );
-  }
-}
-
-class ErrorMessage extends React.Component<{ title: string; message: string }> {
-  render(): ReactNode {
-    return (
-      <div
-        className="border-l-4 border-orange-500 bg-orange-100 p-4 text-orange-700"
-        role="alert"
-      >
-        <p className="font-bold">{this.props.title || `Be Warned`}</p>
-        <p>{this.props.message || `Something wrong.`}</p>
       </div>
     );
   }
