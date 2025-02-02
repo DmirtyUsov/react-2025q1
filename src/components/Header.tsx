@@ -8,7 +8,7 @@ export default class Header extends React.Component<{ title: string }> {
           <img src="react.svg" alt="React Logo" />
           <div>RS React 2025 Q1</div>
           <h1 className="text-3xl font-medium">
-            <a href="#hero">{this.props.title}</a>
+            <a href="#search">{this.props.title}</a>
           </h1>
         </section>
       </header>

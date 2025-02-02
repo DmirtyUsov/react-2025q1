@@ -4,6 +4,7 @@ import TopControls from './components/TopControls';
 import Results from './components/Results';
 import { People, Person } from './models';
 import Warning from './components/Warning';
+import Footer from './components/Footer';
 
 const API_URL = 'https://swapi.dev/api/people/';
 
@@ -113,18 +114,7 @@ export default class App extends React.Component {
           </section>
         </main>
 
-        <footer id="footer" className="bg-teal-700 text-xl text-white">
-          <div className="mx-auto flex max-w-4xl p-4">
-            <button
-              onClick={() => {
-                throw new Error('Simulated error.');
-              }}
-              className="w-48 cursor-pointer rounded-xl border border-solid border-slate-900 bg-amber-700 p-3 text-white hover:bg-amber-600 active:bg-amber-500"
-            >
-              Simulate Error
-            </button>
-          </div>
-        </footer>
+        <Footer />
       </div>
     );
   }
