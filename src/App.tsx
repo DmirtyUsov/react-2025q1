@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 import Header from './components/Header';
-import TopControls from './components/TopControls';
 import Results from './components/Results';
 import { People, Person } from './models';
 import Warning from './components/Warning';
 import Footer from './components/Footer';
+import Search from './components/Search';
 
 const API_URL = 'https://swapi.dev/api/people/';
 
@@ -88,7 +88,7 @@ export default class App extends React.Component {
         <Header title="Task1: Class components. Error boundary."></Header>
 
         <main className="mx-auto max-w-4xl">
-          <TopControls
+          <Search
             setSearchQuery={(searchQuery) => this.setSearchQuery(searchQuery)}
           />
 
