@@ -1,28 +1,23 @@
 import React, { ReactNode } from 'react';
 import Header from './components/Header';
 import Results from './components/Results';
-import { People, Person } from './models';
+import { People } from './models';
 import Warning from './components/Warning';
 import Footer from './components/Footer';
 import Search from './components/Search';
-
-const API_URL = 'https://swapi.dev/api/people/';
+import { ApiResponse, apiService } from './api.service';
 
 type State = {
   searchQuery: string;
-  results: Person[];
   isLoading: boolean;
-  isResponseStatusNotOK: boolean;
-  responseErrorMessage: string;
+  apiResponse: ApiResponse<People>;
 };
 
 export default class App extends React.Component {
   state: Readonly<State> = {
     searchQuery: 'Some Text For Mount Swerrq2',
-    results: [],
     isLoading: false,
-    isResponseStatusNotOK: false,
-    responseErrorMessage: '',
+    apiResponse: { isOk: true, errorMsg: '', payload: undefined },
   };
 
   setIsLoadingState(isLoading: boolean) {
@@ -43,33 +38,18 @@ export default class App extends React.Component {
     if (this.state.isLoading) {
       return;
     }
-    const url = this.state.searchQuery
-      ? `${API_URL}?search=${this.state.searchQuery}`
-      : API_URL;
 
     this.setIsLoadingState(true);
-    fetch(url)
-      .then((response: Response) => {
-        if (!response.ok) {
-          throw new Error(`Status Code ${response.status}`);
-        }
 
-        return response.json();
-      })
-      .then((data: People) => {
+    apiService
+      .getPeople(this.state.searchQuery)
+      .then((apiResponse: ApiResponse<People>) => {
+        console.log(apiResponse);
+
         this.setState((prevState: State): State => {
           return {
             ...prevState,
-            results: data.results,
-          };
-        });
-      })
-      .catch((error) => {
-        this.setState((prevState: State): State => {
-          return {
-            ...prevState,
-            isResponseStatusNotOK: true,
-            responseErrorMessage: `${error}`,
+            apiResponse,
           };
         });
       })
@@ -98,18 +78,26 @@ export default class App extends React.Component {
                 Results
               </h2>
             )}
-            {!this.state.isLoading && this.state.isResponseStatusNotOK && (
-              <Warning
-                title={`Failed to load data`}
-                message={this.state.responseErrorMessage}
-              />
-            )}
+            {!this.state.isLoading &&
+              !this.state.apiResponse.isOk &&
+              this.state.apiResponse.payload && (
+                <Warning
+                  title={`Failed to load data`}
+                  message={this.state.apiResponse.errorMsg}
+                />
+              )}
             {this.state.isLoading === true ? (
               <h3 className="mb-6 animate-pulse text-center text-3xl">
                 Loading...
               </h3>
             ) : (
-              <Results results={this.state.results} />
+              <Results
+                results={
+                  this.state.apiResponse.payload
+                    ? this.state.apiResponse.payload.results
+                    : []
+                }
+              />
             )}
           </section>
         </main>
