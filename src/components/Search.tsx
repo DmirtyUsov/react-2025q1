@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import useLocalStorage from '../useLocalStorage';
 
 const LOCAL_STORAGE_ID = 'search-wer433j';
 type Props = { setSearchQuery(searchQuery: string): void };
 
-const getInitialInputValue = (): string => {
-  return localStorage.getItem(LOCAL_STORAGE_ID) || '';
-};
-
 const Search = ({ setSearchQuery }: Props) => {
-  const [inputValue, setInputValue] = useState<string>(getInitialInputValue);
+  const [savedSearchQuery, storeSearchQuery] = useLocalStorage<string>(
+    LOCAL_STORAGE_ID,
+    ''
+  );
+  const [inputValue, setInputValue] = useState<string>(savedSearchQuery);
 
   const isMounted = useRef<boolean>(false);
   const runOnMount = useCallback(() => {
@@ -25,7 +26,7 @@ const Search = ({ setSearchQuery }: Props) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     setSearchQuery(inputValue);
-    localStorage.setItem(LOCAL_STORAGE_ID, inputValue);
+    storeSearchQuery(inputValue);
   };
 
   return (
