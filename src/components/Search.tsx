@@ -43,7 +43,7 @@ const Search = ({ setSearchQuery }: Props) => {
           name="subject"
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
-          placeholder="Character within the Star Wars universe"
+          placeholder="Character within the show Rick and Morty"
           autoComplete="false"
           className="w-full rounded-xl border border-solid border-slate-900 p-3 text-2xl text-black sm:text-3xl dark:border-white dark:text-white"
         />

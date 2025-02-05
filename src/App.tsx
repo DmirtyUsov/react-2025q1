@@ -1,16 +1,16 @@
 import React, { ReactNode } from 'react';
 import Header from './components/Header';
-import Results from './components/Results';
-import { People } from './models';
 import Warning from './components/Warning';
 import Footer from './components/Footer';
 import Search from './components/Search';
 import { ApiResponse, apiService } from './api.service';
+import CardList from './components/CardList';
+import { Character } from './models';
 
 type State = {
   searchQuery: string;
   isLoading: boolean;
-  apiResponse: ApiResponse<People>;
+  apiResponse: ApiResponse<Character>;
 };
 
 export default class App extends React.Component {
@@ -42,8 +42,8 @@ export default class App extends React.Component {
     this.setIsLoadingState(true);
 
     apiService
-      .getPeople(this.state.searchQuery)
-      .then((apiResponse: ApiResponse<People>) => {
+      .getCharacter(this.state.searchQuery)
+      .then((apiResponse: ApiResponse<Character>) => {
         console.log(apiResponse);
 
         this.setState((prevState: State): State => {
@@ -91,8 +91,8 @@ export default class App extends React.Component {
                 Loading...
               </h3>
             ) : (
-              <Results
-                results={
+              <CardList
+                characters={
                   this.state.apiResponse.payload
                     ? this.state.apiResponse.payload.results
                     : []
