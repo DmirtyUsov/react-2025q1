@@ -1,12 +1,12 @@
-import { People } from './models';
+import { Character, Page } from './models';
 
 export type ApiResponse<T> = {
   isOk: boolean;
   errorMsg: string;
-  payload?: T;
+  payload?: Page<T> | null;
 };
 
-const API_URL = 'https://swapi.dev/api';
+const API_URL = 'https://rickandmortyapi.com/api';
 
 class ApiService {
   private async getData(url: string): Promise<ApiResponse<unknown>> {
@@ -23,7 +23,7 @@ class ApiService {
         }
         return response.json();
       })
-      .then((data: unknown) => {
+      .then((data: Page<unknown>) => {
         apiResponse.payload = data;
         return apiResponse;
       })
@@ -35,24 +35,24 @@ class ApiService {
       });
   }
 
-  async getPageOfPeople(url: string): Promise<ApiResponse<People>> {
+  async getPage(url: string): Promise<ApiResponse<Character>> {
     let apiUrl = url;
     if (!url) {
-      apiUrl = `${API_URL}/people`;
+      apiUrl = `${API_URL}/character`;
     }
-    return (await this.getData(apiUrl)) as ApiResponse<People>;
+    return (await this.getData(apiUrl)) as ApiResponse<Character>;
   }
 
-  async searchPeople(query: string): Promise<ApiResponse<People>> {
-    const apiUrl = `${API_URL}/people?search=${query}`;
-    return (await this.getData(apiUrl)) as ApiResponse<People>;
+  async searchCharacter(query: string): Promise<ApiResponse<Character>> {
+    const apiUrl = `${API_URL}/character?name=${query}`;
+    return (await this.getData(apiUrl)) as ApiResponse<Character>;
   }
 
-  async getPeople(query: string): Promise<ApiResponse<People>> {
+  async getCharacter(query: string): Promise<ApiResponse<Character>> {
     if (query) {
-      return await this.searchPeople(query);
+      return await this.searchCharacter(query);
     }
-    return this.getPageOfPeople('');
+    return this.getPage('');
   }
 }
 
