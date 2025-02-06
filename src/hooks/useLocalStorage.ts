@@ -12,7 +12,7 @@ function getSavedValue<T>(key: string, initValue: T): T {
   return initValue;
 }
 
-export default function useLocalStorage<T>(key: string, initValue: T) {
+export function useLocalStorage<T>(key: string, initValue: T) {
   const [value, setValue] = useState<T>(() => {
     return getSavedValue(key, initValue);
   });

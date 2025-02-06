@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import useLocalStorage from '../useLocalStorage';
+import { useLocalStorage } from '../hooks';
 
 const LOCAL_STORAGE_ID = 'search-wer433j';
 type Props = { setSearchQuery(searchQuery: string): void };

@@ -43,14 +43,14 @@ class ApiService {
     return (await this.getData(apiUrl)) as ApiResponse<Character>;
   }
 
-  async searchCharacter(query: string): Promise<ApiResponse<Character>> {
+  async searchCharacters(query: string): Promise<ApiResponse<Character>> {
     const apiUrl = `${API_URL}/character?name=${query}`;
     return (await this.getData(apiUrl)) as ApiResponse<Character>;
   }
 
-  async getCharacter(query: string): Promise<ApiResponse<Character>> {
+  async getCharacters(query: string): Promise<ApiResponse<Character>> {
     if (query) {
-      return await this.searchCharacter(query);
+      return await this.searchCharacters(query);
     }
     return this.getPage('');
   }
