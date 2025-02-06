@@ -2,7 +2,7 @@ import { Character } from '../models';
 
 type Props = { character: Character };
 
-const Card = ({ character }: Props) => {
+export const Card = ({ character }: Props) => {
   const { image, status, species, name } = character;
   return (
     <div className="transform overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-700">
@@ -28,5 +28,3 @@ const Card = ({ character }: Props) => {
     </div>
   );
 };
-
-export default Card;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Footer = () => {
+export const Footer = () => {
   const [isEmulateError, setIsEmulateError] = useState<boolean>(false);
 
   if (isEmulateError) {
@@ -21,5 +21,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;

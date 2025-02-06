@@ -2,7 +2,7 @@ type Props = {
   title?: string;
   message?: string;
 };
-const Warning = ({
+export const Warning = ({
   title = 'Be warned',
   message = 'Something wrong.',
 }: Props) => {
@@ -16,5 +16,3 @@ const Warning = ({
     </div>
   );
 };
-
-export default Warning;

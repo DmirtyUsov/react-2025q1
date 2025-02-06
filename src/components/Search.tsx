@@ -4,7 +4,7 @@ import { useLocalStorage } from '../hooks';
 const LOCAL_STORAGE_ID = 'search-wer433j';
 type Props = { setSearchQuery(searchQuery: string): void };
 
-const Search = ({ setSearchQuery }: Props) => {
+export const Search = ({ setSearchQuery }: Props) => {
   const [savedSearchQuery, storeSearchQuery] = useLocalStorage<string>(
     LOCAL_STORAGE_ID,
     ''
@@ -55,5 +55,3 @@ const Search = ({ setSearchQuery }: Props) => {
     </section>
   );
 };
-
-export default Search;

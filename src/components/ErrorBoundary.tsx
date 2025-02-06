@@ -1,5 +1,5 @@
 import React, { ErrorInfo } from 'react';
-import Warning from './Warning';
+import { Warning } from './Warning';
 
 type Props = {
   children?: React.ReactNode;
@@ -9,7 +9,7 @@ type State = {
   hasError: boolean;
 };
 
-export default class ErrorBoundary extends React.Component<Props, State> {
+export class ErrorBoundary extends React.Component<Props, State> {
   state: State = { hasError: false };
 
   static getDerivedStateFromError(): State {

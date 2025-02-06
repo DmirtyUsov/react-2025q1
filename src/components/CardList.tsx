@@ -1,9 +1,9 @@
 import { Character } from '../models';
-import Card from './Card';
+import { Card } from './Card';
 
 type Props = { characters: Character[] };
 
-const CardList = ({ characters }: Props) => {
+export const CardList = ({ characters }: Props) => {
   if (characters.length === 0) {
     return (
       <h3 className="mb-6 text-center text-xl text-slate-900 sm:text-2xl dark:text-white">
@@ -19,5 +19,3 @@ const CardList = ({ characters }: Props) => {
     </div>
   );
 };
-
-export default CardList;

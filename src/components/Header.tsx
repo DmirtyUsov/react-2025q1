@@ -1,6 +1,6 @@
 type Props = { title: string };
 
-const Header = ({ title }: Props) => {
+export const Header = ({ title }: Props) => {
   return (
     <header className="sticky top-0 z-10 bg-teal-700 text-white">
       <section className="mx-auto flex max-w-4xl items-center gap-2 p-4">
@@ -13,4 +13,3 @@ const Header = ({ title }: Props) => {
     </header>
   );
 };
-export default Header;
