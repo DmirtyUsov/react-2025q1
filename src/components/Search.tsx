@@ -2,9 +2,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocalStorage } from '../hooks';
 
 const LOCAL_STORAGE_ID = 'search-wer433j';
-type Props = { setSearchQuery(searchQuery: string): void };
+type Props = {
+  initSearchQuery: string;
+  setSearchQuery(searchQuery: string): void;
+};
 
-export const Search = ({ setSearchQuery }: Props) => {
+export const Search = ({ initSearchQuery, setSearchQuery }: Props) => {
   const [savedSearchQuery, storeSearchQuery] = useLocalStorage<string>(
     LOCAL_STORAGE_ID,
     ''
@@ -13,8 +16,14 @@ export const Search = ({ setSearchQuery }: Props) => {
 
   const isMounted = useRef<boolean>(false);
   const runOnMount = useCallback(() => {
-    setSearchQuery(inputValue);
-  }, [inputValue, setSearchQuery]);
+    if (initSearchQuery) {
+      setInputValue(initSearchQuery);
+      storeSearchQuery(initSearchQuery);
+      setSearchQuery(initSearchQuery);
+    } else {
+      setSearchQuery(inputValue);
+    }
+  }, [inputValue, initSearchQuery, setSearchQuery, storeSearchQuery]);
 
   useEffect(() => {
     if (!isMounted.current) {
