@@ -14,10 +14,11 @@ export const useApiGetCharacters = (searchQuery: string) => {
 
       const apiResponse: ApiResponse<Character> =
         await apiService.getCharacters(searchQuery);
+
       setOk(apiResponse.isOk);
-      if (apiResponse.payload) {
-        setCharactersPage(apiResponse.payload);
-      }
+
+      setCharactersPage(apiResponse.payload);
+
       setErrorMsg(apiResponse.errorMsg);
 
       setLoading(false);

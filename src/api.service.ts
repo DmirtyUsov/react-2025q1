@@ -3,7 +3,7 @@ import { Character, Page } from './models';
 export type ApiResponse<T> = {
   isOk: boolean;
   errorMsg: string;
-  payload?: Page<T> | null;
+  payload?: Page<T> | undefined;
 };
 
 const API_URL = 'https://rickandmortyapi.com/api';
@@ -13,7 +13,7 @@ class ApiService {
     const apiResponse: ApiResponse<unknown> = {
       isOk: true,
       errorMsg: 'No errors',
-      payload: null,
+      payload: undefined,
     };
 
     return await fetch(url)
