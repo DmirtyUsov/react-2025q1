@@ -1,25 +1,47 @@
 import { useEffect, useState } from 'react';
-import { useApiGetCharacters } from '../hooks/useApiGetCharacters';
-import { CardList, Search, Warning } from '../components';
+import { ACTIONS, useApiGetCharacters } from '../hooks/useApiGetCharacters';
+import { CardList, Paginator, Search, Warning } from '../components';
 import { useSearchParams } from 'react-router';
 
 export const Home = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const { isLoading, isOk, errorMsg, charactersPage } =
-    useApiGetCharacters(searchQuery);
+  const [pageUrl, setPageUrl] = useState<string>('');
+  const [action, setAction] = useState<ACTIONS>(ACTIONS.NewSearch);
+
+  const { isLoading, isOk, errorMsg, charactersPage, pageNum, pagesTotal } =
+    useApiGetCharacters(searchQuery, pageUrl, action);
+
   const [searchParams, setSearchParams] = useSearchParams({
     search: '',
-    page: '1',
+    page: '',
   });
 
   useEffect(() => {
-    setSearchParams({ search: searchQuery });
-  }, [searchQuery, setSearchParams]);
+    const page: string = pageNum.toString();
+    setSearchParams({ search: searchQuery, page });
+  }, [searchQuery, pageNum, setSearchParams]);
+
+  const changePage = (isShiftToPrev: boolean): void => {
+    const pageUrl = isShiftToPrev
+      ? charactersPage?.info.prev
+      : charactersPage?.info.next;
+    if (pageUrl) {
+      setPageUrl(pageUrl);
+      setAction(ACTIONS.LoadPage);
+    }
+  };
+
+  const makeNewSearch = (newSearchQuery: string): void => {
+    console.log(searchParams.get('page'));
+    setSearchQuery(newSearchQuery);
+    setAction(ACTIONS.NewSearch);
+  };
+
   return (
     <main className="mx-auto max-w-4xl">
       <Search
         initSearchQuery={searchParams.get('search') || ''}
-        setSearchQuery={(newSearchQuery) => setSearchQuery(newSearchQuery)}
+        setSearchQuery={(newSearchQuery) => makeNewSearch(newSearchQuery)}
       />
 
       <section>
@@ -38,6 +60,11 @@ export const Home = () => {
         ) : (
           <CardList characters={charactersPage ? charactersPage.results : []} />
         )}
+        <Paginator
+          pageCurrent={pageNum}
+          pageTotal={pagesTotal}
+          changePage={(isShiftToPrev) => changePage(isShiftToPrev)}
+        />
       </section>
     </main>
   );
