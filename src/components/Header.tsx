@@ -1,3 +1,5 @@
+import { ThemeSelector } from './ThemeSelector';
+
 type Props = { title: string };
 
 export const Header = ({ title }: Props) => {
@@ -9,6 +11,7 @@ export const Header = ({ title }: Props) => {
         <h1 className="text-3xl font-medium">
           <a href="#search">{title}</a>
         </h1>
+        <ThemeSelector />
       </section>
     </header>
   );
