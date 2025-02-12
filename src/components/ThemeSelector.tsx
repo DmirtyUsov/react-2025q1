@@ -1,11 +1,15 @@
+import { useTheme } from '../hooks';
+
 export const ThemeSelector = () => {
-  const isDarkTheme = false;
+  const { isDarkTheme, toggleTheme } = useTheme();
+
   return (
     <label className="inline-flex cursor-pointer items-center">
       <input
         type="checkbox"
         value=""
         checked={!isDarkTheme}
+        onChange={toggleTheme}
         className="peer sr-only bg-lime-400"
       />
       <div

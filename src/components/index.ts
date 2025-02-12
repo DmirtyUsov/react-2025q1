@@ -6,3 +6,5 @@ export * from './Header';
 export * from './Search';
 export * from './Warning';
 export * from './Paginator';
+export * from './ThemeSelector';
+export * from './ThemeProvider';
