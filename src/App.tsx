@@ -1,6 +1,5 @@
-import { Route, Routes } from 'react-router';
+import { AppRoutes } from './AppRoutes';
 import { Footer, Header } from './components';
-import { Home, NotFound } from './pages';
 import { useTheme } from './hooks';
 
 const App = () => {
@@ -11,10 +10,7 @@ const App = () => {
       data-theme={isDarkTheme ? 'dark' : ''}
     >
       <Header title="Task2: React Routing. Tests."></Header>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <AppRoutes />
       <Footer />
     </div>
   );
