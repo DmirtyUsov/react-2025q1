@@ -8,3 +8,4 @@ export * from './Warning';
 export * from './Paginator';
 export * from './ThemeSelector';
 export * from './ThemeProvider';
+export * from './Layout';

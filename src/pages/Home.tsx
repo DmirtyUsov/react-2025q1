@@ -32,7 +32,6 @@ export const Home = () => {
   };
 
   const makeNewSearch = (newSearchQuery: string): void => {
-    console.log(searchParams.get('page'));
     setSearchQuery(newSearchQuery);
     setAction(ACTIONS.NewSearch);
   };

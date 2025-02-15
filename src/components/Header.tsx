@@ -4,7 +4,7 @@ type Props = { title: string };
 
 export const Header = ({ title }: Props) => {
   return (
-    <header className="sticky top-0 z-10 bg-teal-700 text-white">
+    <header className="sticky top-0 z-10 flex bg-teal-700 text-white">
       <section className="mx-auto flex max-w-4xl items-center gap-2 p-4">
         <img src="react.svg" alt="React Logo" />
         <div>RS React 2025 Q1</div>
