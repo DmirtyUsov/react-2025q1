@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ACTIONS, useApiGetCharacters } from '../hooks/useApiGetCharacters';
-import { CardList, Paginator, Search, Warning } from '../components';
+import { CardList, Loader, Paginator, Search, Warning } from '../components';
 import { useSearchParams } from 'react-router';
 
 export const Home = () => {
@@ -42,7 +42,6 @@ export const Home = () => {
         initSearchQuery={searchParams.get('search') || ''}
         setSearchQuery={(newSearchQuery) => makeNewSearch(newSearchQuery)}
       />
-
       <section>
         {!isLoading && (
           <h2 className="mb-6 text-center text-3xl font-bold text-slate-900 sm:text-4xl dark:text-white">
@@ -53,12 +52,11 @@ export const Home = () => {
           <Warning title={`Failed to load data`} message={errorMsg} />
         )}
         {isLoading === true ? (
-          <h3 className="mb-6 animate-pulse text-center text-3xl">
-            Loading...
-          </h3>
+          <Loader />
         ) : (
           <CardList characters={charactersPage ? charactersPage.results : []} />
         )}
+
         <Paginator
           pageCurrent={pageNum}
           pageTotal={pagesTotal}
