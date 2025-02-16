@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
-import { ACTIONS, useApiGetCharacters } from '../hooks/useApiGetCharacters';
 import { CardList, Loader, Paginator, Search, Warning } from '../components';
-import { useSearchParams } from 'react-router';
+import { Outlet, useSearchParams } from 'react-router';
+import { ACTIONS, useApiGetCharacters, useShowDetails } from '../hooks';
 
 export const Home = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [pageUrl, setPageUrl] = useState<string>('');
   const [action, setAction] = useState<ACTIONS>(ACTIONS.NewSearch);
+  const { isShowDetails, hideDetails } = useShowDetails();
 
   const { isLoading, isOk, errorMsg, charactersPage, pageNum, pagesTotal } =
     useApiGetCharacters(searchQuery, pageUrl, action);
 
-  const [searchParams, setSearchParams] = useSearchParams({
-    search: '',
-    page: '',
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const page: string = pageNum.toString();
-    setSearchParams({ search: searchQuery, page });
-  }, [searchQuery, pageNum, setSearchParams]);
+    searchParams.set('search', searchQuery);
+    searchParams.set('page', page);
+    setSearchParams(searchParams);
+  }, [searchQuery, pageNum, setSearchParams, searchParams]);
 
   const changePage = (isShiftToPrev: boolean): void => {
     const pageUrl = isShiftToPrev
@@ -37,32 +37,42 @@ export const Home = () => {
   };
 
   return (
-    <main className="mx-auto max-w-4xl">
-      <Search
-        initSearchQuery={searchParams.get('search') || ''}
-        setSearchQuery={(newSearchQuery) => makeNewSearch(newSearchQuery)}
-      />
-      <section>
-        {!isLoading && (
-          <h2 className="mb-6 text-center text-3xl font-bold text-slate-900 sm:text-4xl dark:text-white">
-            Results
-          </h2>
-        )}
-        {!isLoading && !isOk && charactersPage && (
-          <Warning title={`Failed to load data`} message={errorMsg} />
-        )}
-        {isLoading === true ? (
-          <Loader />
-        ) : (
-          <CardList characters={charactersPage ? charactersPage.results : []} />
-        )}
-
-        <Paginator
-          pageCurrent={pageNum}
-          pageTotal={pagesTotal}
-          changePage={(isShiftToPrev) => changePage(isShiftToPrev)}
+    <main
+      onClick={hideDetails}
+      className="mx-auto flex max-w-4xl flex-col sm:flex-row"
+    >
+      <div>
+        <Search
+          initSearchQuery={searchParams.get('search') || ''}
+          setSearchQuery={(newSearchQuery) => makeNewSearch(newSearchQuery)}
         />
-      </section>
+        <section>
+          {!isLoading && (
+            <h2 className="mb-6 text-center text-3xl font-bold text-slate-900 sm:text-4xl dark:text-white">
+              Results
+            </h2>
+          )}
+          {!isLoading && !isOk && charactersPage && (
+            <Warning title={`Failed to load data`} message={errorMsg} />
+          )}
+          {isLoading === true ? (
+            <Loader />
+          ) : (
+            <CardList
+              characters={charactersPage ? charactersPage.results : []}
+            />
+          )}
+
+          {pagesTotal > 1 && (
+            <Paginator
+              pageCurrent={pageNum}
+              pageTotal={pagesTotal}
+              changePage={(isShiftToPrev) => changePage(isShiftToPrev)}
+            />
+          )}
+        </section>
+      </div>
+      {isShowDetails && <Outlet />}
     </main>
   );
 };

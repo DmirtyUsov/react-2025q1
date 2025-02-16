@@ -10,3 +10,4 @@ export * from './ThemeSelector';
 export * from './ThemeProvider';
 export * from './Layout';
 export * from './Loader';
+export * from './Details';

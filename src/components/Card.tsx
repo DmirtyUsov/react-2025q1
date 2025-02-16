@@ -1,9 +1,19 @@
 import { Character } from '../models';
+import { useShowDetails } from '../hooks';
 
 type Props = { character: Character };
 
 export const Card = ({ character }: Props) => {
-  const { image, status, species, name } = character;
+  const { id, image, status, species, name } = character;
+
+  const { showDetailsForId } = useShowDetails();
+
+  const showDetails = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    const details = id.toString();
+    showDetailsForId(details);
+  };
+
   return (
     <div className="transform overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-700">
       <img
@@ -21,7 +31,10 @@ export const Card = ({ character }: Props) => {
             {status}
           </span>
         </div>
-        <button className="mt-4 w-full rounded-lg bg-lime-600 px-4 py-2 text-white transition-colors hover:bg-lime-500">
+        <button
+          onClick={(event) => showDetails(event)}
+          className="mt-4 w-full cursor-pointer rounded-lg bg-lime-600 px-4 py-2 text-white transition-colors hover:bg-lime-500"
+        >
           Show More
         </button>
       </div>
