@@ -32,6 +32,9 @@ export const useApiGetCharacters = (
       if (apiResponse.payload) {
         setPagesTotal(apiResponse.payload.info.pages);
         setPageNum(1);
+      } else {
+        setPageNum(0);
+        setPagesTotal(0);
       }
 
       setErrorMsg(apiResponse.errorMsg);
