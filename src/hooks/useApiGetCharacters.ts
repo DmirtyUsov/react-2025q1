@@ -25,12 +25,14 @@ export const useApiGetCharacters = (
       const apiResponse: ApiResponse<Character> =
         await apiService.getCharacters(searchQuery);
 
+      const payload: Page<Character> | undefined =
+        apiResponse.payload as Page<Character>;
+
+      setCharactersPage(payload);
       setOk(apiResponse.isOk);
 
-      setCharactersPage(apiResponse.payload);
-      console.log(apiResponse?.payload?.info);
-      if (apiResponse.payload) {
-        setPagesTotal(apiResponse.payload.info.pages);
+      if (payload) {
+        setPagesTotal(payload.info.pages);
         setPageNum(1);
       } else {
         setPageNum(0);
@@ -46,12 +48,15 @@ export const useApiGetCharacters = (
       const apiResponse: ApiResponse<Character> =
         await apiService.getPage(pageUrl);
 
+      const payload: Page<Character> | undefined =
+        apiResponse.payload as Page<Character>;
+
       setOk(apiResponse.isOk);
 
-      setCharactersPage(apiResponse.payload);
-      console.log(apiResponse?.payload?.info);
-      if (apiResponse.payload) {
-        setPagesTotal(apiResponse.payload.info.pages);
+      setCharactersPage(payload);
+
+      if (payload) {
+        setPagesTotal(payload.info.pages);
         const page = +pageUrl.split('page=')[1].split('&name')[0];
         setPageNum(page);
       }

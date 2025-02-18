@@ -3,10 +3,11 @@ import { Character, Page } from './models';
 export type ApiResponse<T> = {
   isOk: boolean;
   errorMsg: string;
-  payload?: Page<T> | undefined;
+  payload?: Page<T> | T | undefined;
 };
 
 const API_URL = 'https://rickandmortyapi.com/api';
+const ENDPOINT_CHARACTER = 'character';
 
 class ApiService {
   private async getData(url: string): Promise<ApiResponse<unknown>> {
@@ -23,7 +24,7 @@ class ApiService {
         }
         return response.json();
       })
-      .then((data: Page<unknown>) => {
+      .then((data: unknown) => {
         apiResponse.payload = data;
         return apiResponse;
       })
@@ -38,13 +39,13 @@ class ApiService {
   async getPage(url: string): Promise<ApiResponse<Character>> {
     let apiUrl = url;
     if (!url) {
-      apiUrl = `${API_URL}/character`;
+      apiUrl = `${API_URL}/${ENDPOINT_CHARACTER}`;
     }
     return (await this.getData(apiUrl)) as ApiResponse<Character>;
   }
 
   async searchCharacters(query: string): Promise<ApiResponse<Character>> {
-    const apiUrl = `${API_URL}/character?name=${query}`;
+    const apiUrl = `${API_URL}/${ENDPOINT_CHARACTER}?name=${query}`;
     return (await this.getData(apiUrl)) as ApiResponse<Character>;
   }
 
@@ -53,6 +54,18 @@ class ApiService {
       return await this.searchCharacters(query);
     }
     return this.getPage('');
+  }
+
+  async getCharacter(id: string): Promise<ApiResponse<Character>> {
+    if (!id) {
+      const error: ApiResponse<Character> = {
+        isOk: false,
+        errorMsg: 'Empty id',
+      };
+      return Promise.resolve(error);
+    }
+    const apiUrl = `${API_URL}/${ENDPOINT_CHARACTER}/${id}`;
+    return (await this.getData(apiUrl)) as ApiResponse<Character>;
   }
 }
 
