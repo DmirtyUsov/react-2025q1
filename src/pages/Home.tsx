@@ -7,7 +7,7 @@ export const Home = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [pageUrl, setPageUrl] = useState<string>('');
   const [action, setAction] = useState<ACTIONS>(ACTIONS.NewSearch);
-  const { isShowDetails, hideDetails } = useShowDetails();
+  const { idDetails, isShowDetails, hideDetails } = useShowDetails();
 
   const { isLoading, isOk, errorMsg, charactersPage, pageNum, pagesTotal } =
     useApiGetCharacters(searchQuery, pageUrl, action);
@@ -39,7 +39,7 @@ export const Home = () => {
   return (
     <main
       onClick={hideDetails}
-      className="mx-auto flex max-w-4xl flex-col sm:flex-row"
+      className="mx-auto flex max-w-4xl flex-col justify-center sm:flex-row"
     >
       <div>
         <Search
@@ -72,7 +72,7 @@ export const Home = () => {
           )}
         </section>
       </div>
-      {isShowDetails && <Outlet />}
+      {isShowDetails && <Outlet context={{ idDetails }} />}
     </main>
   );
 };

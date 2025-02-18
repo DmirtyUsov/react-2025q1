@@ -5,9 +5,11 @@ const DETAILS_PARAM = 'details';
 export const useShowDetails = () => {
   const [isShowDetails, setIsShowDetails] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [idDetails, setIdDetails] = useState<string>('');
 
   useEffect(() => {
-    const detailsId = searchParams.get(DETAILS_PARAM);
+    const detailsId = searchParams.get(DETAILS_PARAM) || '';
+    setIdDetails(detailsId);
     setIsShowDetails(!!detailsId);
   }, [searchParams]);
 
@@ -21,5 +23,5 @@ export const useShowDetails = () => {
     setSearchParams(searchParams);
   };
 
-  return { isShowDetails, showDetailsForId, hideDetails };
+  return { idDetails, isShowDetails, showDetailsForId, hideDetails };
 };
