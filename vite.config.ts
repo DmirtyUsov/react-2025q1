@@ -9,6 +9,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     coverage: {
+      provider: 'v8',
       include: ['**/*.tsx'],
       exclude: [
         '**/node_modules/**',
