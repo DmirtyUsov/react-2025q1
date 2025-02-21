@@ -8,7 +8,7 @@ import reactCompiler from 'eslint-plugin-react-compiler';
 import react from 'eslint-plugin-react';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'coverage'] },
   {
     extends: [
       js.configs.recommended,
