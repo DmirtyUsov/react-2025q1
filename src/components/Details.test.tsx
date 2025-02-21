@@ -5,6 +5,8 @@ import { mockCharacters } from '../tests/mock.data';
 import { Details } from './Details';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { Home } from '../pages';
+import { Provider } from 'react-redux';
+import { store } from '../store';
 
 describe('Details', () => {
   vi.mock('useShowDetails', () => {
@@ -21,13 +23,15 @@ describe('Details', () => {
 
   it('should render character', async () => {
     render(
-      <MemoryRouter initialEntries={['/?search=ric&page=1&details=3']}>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route path="/" element={<Details />} />
-          </Route>
-        </Routes>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/?search=ric&page=1&details=3']}>
+          <Routes>
+            <Route path="/" element={<Home />}>
+              <Route path="/" element={<Details />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
     screen.debug();
 

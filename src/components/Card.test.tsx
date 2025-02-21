@@ -5,6 +5,8 @@ import { Card } from './Card';
 import { Character } from '../models';
 import { mockCharacters } from '../tests/mock.data';
 import { BrowserRouter } from 'react-router';
+import { Provider } from 'react-redux';
+import { store } from '../store';
 
 describe('Card', () => {
   const character: Character = mockCharacters[0];
@@ -20,9 +22,11 @@ describe('Card', () => {
 
   it('should render character', () => {
     render(
-      <BrowserRouter>
-        <Card character={character} />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Card character={character} />
+        </BrowserRouter>
+      </Provider>
     );
     screen.debug();
 

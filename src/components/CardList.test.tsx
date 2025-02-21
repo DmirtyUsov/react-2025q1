@@ -4,6 +4,8 @@ import { CardList } from './CardList';
 import { Character } from '../models';
 import { mockCharacters } from '../tests/mock.data';
 import { BrowserRouter } from 'react-router';
+import { Provider } from 'react-redux';
+import { store } from '../store';
 
 describe('CardList', () => {
   it('should not render cards then list is empty', () => {
@@ -16,9 +18,11 @@ describe('CardList', () => {
   it('should render the list of characters', () => {
     const characters: Character[] = mockCharacters;
     render(
-      <BrowserRouter>
-        <CardList characters={characters} />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <CardList characters={characters} />
+        </BrowserRouter>
+      </Provider>
     );
     screen.debug();
 
