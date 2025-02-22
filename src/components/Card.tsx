@@ -1,17 +1,44 @@
 import { Character } from '../models';
 import { useShowDetails } from '../hooks';
+import { FavoriteSelector } from './FavoriteSelector';
+import {
+  addFavorite,
+  removeFavorite,
+  useAppDispatch,
+  useAppSelector,
+} from '../store';
+import { useEffect, useState } from 'react';
+import { RootState } from '../store/store';
 
 type Props = { character: Character };
 
 export const Card = ({ character }: Props) => {
+  const dispatch = useAppDispatch();
+  const favorites = useAppSelector(
+    (state: RootState) => state.favorites.characters
+  );
   const { id, image, status, species, name } = character;
 
   const { showDetailsForId } = useShowDetails();
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   const showDetails = (event: React.MouseEvent) => {
     event.stopPropagation();
     const details = id.toString();
     showDetailsForId(details);
+  };
+
+  useEffect(() => {
+    const isFavorite = favorites.some((item) => item.id === id);
+    setIsFavorite(isFavorite);
+  }, [favorites, id]);
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      dispatch(removeFavorite({ id }));
+    } else {
+      dispatch(addFavorite(character));
+    }
   };
 
   return (
@@ -37,6 +64,10 @@ export const Card = ({ character }: Props) => {
         >
           Show More
         </button>
+        <FavoriteSelector
+          toggleFavorite={toggleFavorite}
+          isFavorite={isFavorite}
+        />
       </div>
     </div>
   );

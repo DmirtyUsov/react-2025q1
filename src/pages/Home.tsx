@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react';
-import { CardList, Loader, Paginator, Search, Warning } from '../components';
+import {
+  CardList,
+  Flyout,
+  Loader,
+  Paginator,
+  Search,
+  Warning,
+} from '../components';
 import { Outlet, useSearchParams } from 'react-router';
 import { ACTIONS, useApiGetCharacters, useShowDetails } from '../hooks';
 
@@ -71,7 +78,9 @@ export const Home = () => {
             />
           )}
         </section>
+        <Flyout />
       </div>
+
       {isShowDetails && <Outlet context={{ idDetails }} />}
     </main>
   );

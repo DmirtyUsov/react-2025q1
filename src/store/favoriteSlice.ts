@@ -2,25 +2,25 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Character } from '../models';
 
 type Favorite = {
-  favorites: Character[];
+  characters: Character[];
 };
 
-const initialState: Favorite = { favorites: [] };
+const initialState: Favorite = { characters: [] };
 
 export const FavoriteSlice = createSlice({
   name: 'favorites',
   initialState,
   reducers: {
     addFavorite: (state, action: PayloadAction<Character>) => {
-      state.favorites.push(action.payload);
+      state.characters.push(action.payload);
     },
     removeFavorite: (state, action: PayloadAction<{ id: number }>) => {
-      state.favorites = state.favorites.filter(
+      state.characters = state.characters.filter(
         (item) => item.id !== action.payload.id
       );
     },
     clearAll: (state) => {
-      state.favorites = [];
+      state.characters = [];
     },
   },
 });

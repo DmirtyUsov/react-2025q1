@@ -1,3 +1,4 @@
+import { Location } from './location.model';
 export type OrganismStatus = 'Alive' | 'Dead' | 'unknown';
 export type Gender = 'Female' | 'Male' | 'Genderless' | 'unknown';
 export type Character = {
