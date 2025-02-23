@@ -1,12 +1,12 @@
-import { useApiGetCharacterById, useShowDetails } from '../hooks';
+import { useShowDetails } from '../hooks';
 import { useOutletContext } from 'react-router';
 import { Loader } from './Loader';
+import { useGetCharacterQuery } from '../api.service';
 
 export const Details = () => {
   const { idDetails }: { idDetails: string } = useOutletContext();
 
-  const { isLoading, character } = useApiGetCharacterById(idDetails);
-
+  const { isLoading, data: character } = useGetCharacterQuery(idDetails);
   const { hideDetails } = useShowDetails();
 
   return (
