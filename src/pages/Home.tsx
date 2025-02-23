@@ -8,7 +8,10 @@ import {
   Warning,
 } from '../components';
 import { Outlet, useSearchParams } from 'react-router';
-import { ACTIONS, useApiGetCharacters, useShowDetails } from '../hooks';
+import { useShowDetails } from '../hooks';
+import { useGetPageQuery, ACTIONS } from '../api.service';
+import { Character, Page } from '../models';
+import { getCurrentPageNum } from '../utils';
 
 export const Home = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -17,7 +20,29 @@ export const Home = () => {
   const { idDetails, isShowDetails, hideDetails } = useShowDetails();
 
   const { isLoading, isOk, errorMsg, charactersPage, pageNum, pagesTotal } =
-    useApiGetCharacters(searchQuery, pageUrl, action);
+    useGetPageQuery(
+      { searchQuery, pageUrl, action },
+      {
+        selectFromResult: ({ data, isError, isLoading }) => {
+          const isOk = !isError;
+          const errorMsg = isOk ? '' : 'Problem';
+          const charactersPage: Page<Character> | undefined = isOk
+            ? (data as Page<Character>)
+            : undefined;
+          const pagesTotal = charactersPage ? charactersPage.info.pages : 0;
+          const pageNum = getCurrentPageNum(charactersPage);
+
+          return {
+            isLoading,
+            isOk,
+            errorMsg,
+            charactersPage,
+            pagesTotal,
+            pageNum,
+          };
+        },
+      }
+    );
 
   const [searchParams, setSearchParams] = useSearchParams();
 
