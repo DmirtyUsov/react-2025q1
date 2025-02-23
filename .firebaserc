@@ -1,0 +1,16 @@
+{
+  "projects": {},
+  "targets": {
+    "dmirtyusov": {
+      "hosting": {
+        "actual": [
+          "dmirtyusov"
+        ],
+        "task": [
+          "dmirtyusov-task-3"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
