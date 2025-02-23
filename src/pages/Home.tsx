@@ -12,6 +12,8 @@ import { useShowDetails } from '../hooks';
 import { useGetPageQuery, ACTIONS } from '../api.service';
 import { Character, Page } from '../models';
 import { getCurrentPageNum } from '../utils';
+import { setPage, useAppDispatch, useAppSelector } from '../store';
+import { RootState } from '../store/store';
 
 export const Home = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -46,6 +48,10 @@ export const Home = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const dispatch = useAppDispatch();
+
+  const { results } = useAppSelector((state: RootState) => state.page);
+
   useEffect(() => {
     const page: string = pageNum.toString();
     searchParams.set('search', searchQuery);
@@ -62,6 +68,10 @@ export const Home = () => {
       setAction(ACTIONS.LoadPage);
     }
   };
+
+  useEffect(() => {
+    dispatch(setPage(charactersPage));
+  }, [dispatch, charactersPage]);
 
   const makeNewSearch = (newSearchQuery: string): void => {
     setSearchQuery(newSearchQuery);
@@ -90,9 +100,7 @@ export const Home = () => {
           {isLoading === true ? (
             <Loader />
           ) : (
-            <CardList
-              characters={charactersPage ? charactersPage.results : []}
-            />
+            <CardList characters={results ? results : []} />
           )}
 
           {pagesTotal > 1 && (
